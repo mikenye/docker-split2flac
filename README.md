@@ -4,7 +4,7 @@ From https://github.com/ftrvxmtrx/split2flac :
 
 "split2flac splits one big APE/FLAC/TTA/WV/WAV audio image (or a collection of such files, recursively) with CUE sheet into FLAC/M4A/MP3/OGG_VORBIS/OPUS/WAV tracks with tagging, renaming, charset conversion of cue sheet, album cover images. It also uses configuration file, so no need to pass a lot of arguments every time, only an input file. Should work in any POSIX-compliant shell."
 
-Set up by running: ducker pull mikenye/split2facc
+Set up by running: docker pull mikenye/split2facc
 
 To use, set up a bash alias, etc:
 alias split2flac='docker run -v "$(pwd)":/workdir -it --rm mikenye/split2flac'
