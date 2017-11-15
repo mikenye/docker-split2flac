@@ -56,6 +56,14 @@ Just run 'split2flac' as you would normally, e.g.:
 ```
 $ split2flac -v
 split2flac version: 122
+shntool 3.0.10
+flac 1.3.1
+-- Monkey's Audio Console Front End (v 4.11) (c) Matthew T. Ashland --
+FAAC 1.28
+oggenc from vorbis-tools 1.4.0
+opusenc opus-tools 0.1.9 (using libopus 1.1.2)
+Copyright (C) 2008-2013 Xiph.Org Foundation
+LAME 64bits version 3.99.5 (http://lame.sf.net)
 
 ```
 
@@ -82,15 +90,6 @@ Files/paths passed to split2flac must be within the current working directory. R
 
 ### Example - Splitting a CUE/FLAC: ###
 ```
-shntool 3.0.10
-flac 1.3.1
--- Monkey's Audio Console Front End (v 4.11) (c) Matthew T. Ashland --
-FAAC 1.28
-oggenc from vorbis-tools 1.4.0
-opusenc opus-tools 0.1.9 (using libopus 1.1.2)
-Copyright (C) 2008-2013 Xiph.Org Foundation
-LAME 64bits version 3.99.5 (http://lame.sf.net)
-
 $ split2flac -cue ./Billy\ Idol\ -\ Kings\ \&\ Queens\ Of\ The\ Underground.cue ./Billy\ Idol\ -\ Kings\ \&\ Queens\ Of\ The\ Underground.flac
 Output format : FLAC [using flake tool] (-8)
 Output dir : .
