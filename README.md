@@ -1,3 +1,5 @@
+Unofficial 'split2flac' docker image with all dependencies built on Ubuntu.
+
 ### Introduction: ###
 
 From <https://github.com/ftrvxmtrx/split2flac>:
