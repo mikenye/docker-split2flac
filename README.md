@@ -1,19 +1,87 @@
-Unofficial 'split2flac' docker repo containing all dependencies
+### Introduction: ###
 
-From https://github.com/ftrvxmtrx/split2flac :
+From <https://github.com/ftrvxmtrx/split2flac>:
 
-"split2flac splits one big APE/FLAC/TTA/WV/WAV audio image (or a collection of such files, recursively) with CUE sheet into FLAC/M4A/MP3/OGG_VORBIS/OPUS/WAV tracks with tagging, renaming, charset conversion of cue sheet, album cover images. It also uses configuration file, so no need to pass a lot of arguments every time, only an input file. Should work in any POSIX-compliant shell."
+*split2flac splits one big APE/FLAC/TTA/WV/WAV audio image (or a collection of such files, recursively) with CUE sheet into FLAC/M4A/MP3/OGG_VORBIS/OPUS/WAV tracks with tagging, renaming, charset conversion of cue sheet, album cover images.*
 
-Set up by running: docker pull mikenye/split2facc
 
-To use, set up a bash alias, etc:
+---
+
+
+### Why? ###
+The point of this image is to:
+* Have a working 'split2flac' with all dependencies without having to manually install the many required dependencies
+* Prevent polluting your base OS with the many dependency packages required
+* Prevent dependencies using 3rd party PPAs from breaking when you do a dist-upgrade.
+
+
+---
+
+
+### Pull the image: ###
+```
+docker pull mikenye/split2facc
+
+```
+
+
+---
+
+
+### Setup: ###
+To use, set up a bash alias:
+
+```
 alias split2flac='docker run -v "$(pwd)":/workdir -it --rm mikenye/split2flac'
 
-Then run like this:
+```
 
+
+&nbsp;
+
+
+#### Explanation: ####
+* **-v "$(pwd)":/workdir** mounts the current working directory as "/workdir" within the container
+* **-it** makes the container **i**nteractive and assigns a **t**ty. This allows you to interact with split2flac and see output etc.
+* **--rm** will delete the container when finished, preventing containers piling up and using all your disk space.
+
+
+---
+
+
+### Running: ###
+Just run 'split2flac' as you would normally, e.g.:
+
+
+```
 $ split2flac -v
 split2flac version: 122
 
+```
+
+
+&nbsp;
+
+
+#### What's happening? ####
+Due to the alias, issuing the "split2flac" command will:
+1. Instantiate the container
+1. Mount the current working directory into the container as /workdir
+1. Change the container's working directory to /workdir
+1. Run the split2flac script in the container
+
+
+Any arguments you add to the command line will be passed to split2flac.
+
+
+Files/paths passed to split2flac must be within the current working directory. Referencing files *above* the current working directory **will fail** (because the container can't see them - **-v "$(pwd)":/workdir** mounts the current working directory as "/workdir" within the container).
+
+
+---
+
+
+### Example - Splitting a CUE/FLAC: ###
+```
 shntool 3.0.10
 flac 1.3.1
 -- Monkey's Audio Console Front End (v 4.11) (c) Matthew T. Ashland --
@@ -82,3 +150,4 @@ cp: cannot stat './.jpg': No such file or directory
 cp: cannot stat './.cbr': No such file or directory
 
 Finished
+```
