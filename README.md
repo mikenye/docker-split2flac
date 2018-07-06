@@ -26,7 +26,7 @@ The point of this image is to:
 
 ### Pull the image: ###
 ```
-docker pull mikenye/split2facc
+docker pull mikenye/split2flac
 
 ```
 
