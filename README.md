@@ -6,7 +6,7 @@ Unofficial 'split2flac' docker image with all dependencies built on Ubuntu.
 
 ### Introduction: ###
 
-From <https://github.com/ftrvxmtrx/split2flac>:
+From https://github.com/ftrvxmtrx/split2flac:
 
 *split2flac splits one big APE/FLAC/TTA/WV/WAV audio image (or a collection of such files, recursively) with CUE sheet into FLAC/M4A/MP3/OGG_VORBIS/OPUS/WAV tracks with tagging, renaming, charset conversion of cue sheet, album cover images.*
 
