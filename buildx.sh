@@ -16,5 +16,6 @@ docker buildx build -t "${REPO}/${IMAGE}:latest" --compress --push --platform "$
 
 # Get split2flac version
 VERSION=$(docker run --rm "${REPO}/${IMAGE}:latest" --version | head -1 | cut -d ":" -f 2 | tr -d " " | sed 's/\r$//')
+
 # Build & push version specific
 docker buildx build -t "${REPO}/${IMAGE}:v${VERSION}" --compress --push --platform "${PLATFORMS}" .
