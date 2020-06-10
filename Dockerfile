@@ -3,7 +3,8 @@ FROM ubuntu:xenial
 ENV PUID=1000 \
     PGID=1000 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-    S6_CMD_ARG0="s6-setuidgid appuser /split2flac/split2flac"
+    S6_CMD_ARG0="/s2finit" \
+    S6_LOGGING=1
 
 RUN set -x && \
     apt-get update && \
@@ -57,6 +58,9 @@ RUN set -x && \
     apt-get -y autoremove && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY etc/ /etc/
+COPY s2finit /s2finit
 
 # entrypoint
 WORKDIR /workdir
