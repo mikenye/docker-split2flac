@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Run split2flac with remainder of command line arguments
+s6-setuidgid appuser /split2flac/split2flac "$@"

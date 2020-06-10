@@ -1,54 +1,67 @@
 FROM ubuntu:xenial
 
-RUN apt-get update
+ENV PUID=1000 \
+    PGID=1000 \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_ARG0="/s2finit" \
+    S6_LOGGING=1
 
-# install third party PPAs
-# install add-apt-repository tool
-RUN apt-get -y install software-properties-common
-# monkey audio for mac
-RUN add-apt-repository -y ppa:mc3man/xerus-media
-# flacon for ttaenc
-RUN add-apt-repository -y ppa:flacon/ppa
-# aacgain
-RUN add-apt-repository -y ppa:flexiondotorg/audio
-# update apt cache
-RUN apt-get update
+RUN set -x && \
+    apt-get update && \
+    # install third party PPAs
+    # install add-apt-repository tool
+    apt-get -y install \
+        software-properties-common \
+        && \
+    # monkey audio for mac
+    add-apt-repository -y ppa:mc3man/xerus-media && \
+    # flacon for ttaenc
+    add-apt-repository -y ppa:flacon/ppa && \
+    # aacgain
+    add-apt-repository -y ppa:flexiondotorg/audio && \
+    # update apt cache
+    apt-get update && \
+    # install pre-requisites
+    apt-get -y install \
+        aacgain \
+        cuetools \
+        curl \
+        enca \
+        faac \
+        flac \
+        flake \
+        git \
+        imagemagick \
+        lame \
+        libmp4v2-2 \
+        monkeys-audio \
+        mp3gain \
+        opus-tools \
+        python-mutagen \
+        shntool \
+        ttaenc \
+        vorbis-tools \
+        vorbisgain \
+        wavpack \
+        && \
+    # install split2flac
+    git -C / clone https://github.com/ftrvxmtrx/split2flac.git && \
+    # setup directories
+    mkdir -p /workdir && \
+    # install s6-overlay
+    curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
+    # cleanup
+    apt-get remove -y \
+        curl \
+        git \
+        && \
+    apt-get -y autoremove && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# install pre-requisites
-RUN apt-get -y install shntool
-RUN apt-get -y install cuetools
-RUN apt-get -y install flake
-RUN apt-get -y install faac
-RUN apt-get -y install libmp4v2-2
-RUN apt-get -y install wavpack
-RUN apt-get -y install monkeys-audio
-RUN apt-get -y install ttaenc
-RUN apt-get -y install imagemagick
-RUN apt-get -y install enca
-RUN apt-get -y install lame
-RUN apt-get -y install python-mutagen
-RUN apt-get -y install vorbis-tools
-RUN apt-get -y install opus-tools
-RUN apt-get -y install flac
-RUN apt-get -y install aacgain
-RUN apt-get -y install mp3gain
-RUN apt-get -y install vorbisgain
-RUN apt-get -y install git-sh
-
-# install split2flac
-RUN git -C / clone https://github.com/ftrvxmtrx/split2flac.git
-
-# setup directories
-RUN mkdir -p /workdir
-
-# cleanup
-RUN apt-get -y autoremove
-RUN apt-get -y clean
-RUN rm -rf /var/lib/apt/lists/*
-RUN rm -rf /tmp/*
-RUN rm -rf /var/tmp/*
+COPY etc/ /etc/
+COPY s2finit /s2finit
 
 # entrypoint
 WORKDIR /workdir
-ENTRYPOINT ["/split2flac/split2flac"]
-
+ENTRYPOINT ["/init"]

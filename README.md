@@ -1,63 +1,45 @@
+# mikenye/split2flac
+
 Unofficial 'split2flac' docker image with all dependencies built on Ubuntu.
 
-
----
-
-
-### Introduction: ###
+## Introduction
 
 From https://github.com/ftrvxmtrx/split2flac:
 
 *split2flac splits one big APE/FLAC/TTA/WV/WAV audio image (or a collection of such files, recursively) with CUE sheet into FLAC/M4A/MP3/OGG_VORBIS/OPUS/WAV tracks with tagging, renaming, charset conversion of cue sheet, album cover images.*
 
+## Why
 
----
-
-
-### Why? ###
 The point of this image is to:
+
 * Have a working 'split2flac' with all dependencies without having to manually install the many required dependencies
 * Prevent polluting your base OS with the many dependency packages required
 * Prevent dependencies using 3rd party PPAs from breaking when you do a dist-upgrade.
 
+## Pull the image
 
----
-
-
-### Pull the image: ###
-```
+```shell
 docker pull mikenye/split2flac
-
 ```
 
+## Setup
 
----
-
-
-### Setup: ###
 To use, set up a bash alias:
 
+```shell
+alias split2flac='docker run -v "$(pwd)":/workdir -e PUID=$(id -u) -e PGID=$(id -g) -it --rm mikenye/split2flac'
 ```
-alias split2flac='docker run -v "$(pwd)":/workdir -it --rm mikenye/split2flac'
 
-```
+**Explanation**
 
+* `-v "$(pwd)":/workdir` mounts the current working directory as "/workdir" within the container
+* `-it` makes the container **i**nteractive and assigns a **t**ty. This allows you to interact with split2flac and see output etc.
+* `-e PUID=$(id -u) -e PGID=$(id -g)` makes the container run the `split2flac` process as the current user/group, to prevent permissions issues.
+* `--rm` will delete the container when finished, preventing containers piling up and using all your disk space.
 
-&nbsp;
+## Running
 
-
-#### Explanation: ####
-* **-v "$(pwd)":/workdir** mounts the current working directory as "/workdir" within the container
-* **-it** makes the container **i**nteractive and assigns a **t**ty. This allows you to interact with split2flac and see output etc.
-* **--rm** will delete the container when finished, preventing containers piling up and using all your disk space.
-
-
----
-
-
-### Running: ###
 Just run 'split2flac' as you would normally, e.g.:
-
 
 ```
 $ split2flac -v
@@ -70,31 +52,23 @@ oggenc from vorbis-tools 1.4.0
 opusenc opus-tools 0.1.9 (using libopus 1.1.2)
 Copyright (C) 2008-2013 Xiph.Org Foundation
 LAME 64bits version 3.99.5 (http://lame.sf.net)
-
 ```
 
+**What's happening?**
 
-&nbsp;
-
-
-#### What's happening? ####
 Due to the alias, issuing the "split2flac" command will:
+
 1. Instantiate the container
 1. Mount the current working directory into the container as /workdir
 1. Change the container's working directory to /workdir
 1. Run the split2flac script in the container
 
-
 Any arguments you add to the command line will be passed to split2flac.
 
+Files/paths passed to split2flac must be within the current working directory. Referencing files *above* the current working directory **will fail** (because the container can't see them - `-v "$(pwd)":/workdir` mounts the current working directory as `/workdir` within the container).
 
-Files/paths passed to split2flac must be within the current working directory. Referencing files *above* the current working directory **will fail** (because the container can't see them - **-v "$(pwd)":/workdir** mounts the current working directory as "/workdir" within the container).
+## Example - Splitting a CUE/FLAC
 
-
----
-
-
-### Example - Splitting a CUE/FLAC: ###
 ```
 $ split2flac -cue ./Billy\ Idol\ -\ Kings\ \&\ Queens\ Of\ The\ Underground.cue ./Billy\ Idol\ -\ Kings\ \&\ Queens\ Of\ The\ Underground.flac
 Output format : FLAC [using flake tool] (-8)
