@@ -54,8 +54,8 @@ RUN set -x && \
         curl \
         git \
         && \
-    apt-get -y autoremove
-    apt-get -y clean
+    apt-get -y autoremove && \
+    apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # entrypoint
