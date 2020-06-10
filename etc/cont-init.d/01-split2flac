@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+# Create group
+addgroup -g ${PGID} appuser
+
+# Create user
+adduser -h /config -G appuser -S -D -u ${PUID} appuser
