@@ -130,3 +130,9 @@ cp: cannot stat './.cbr': No such file or directory
 
 Finished
 ```
+
+## Getting Help ##
+
+Please feel free to [open an issue on the project's GitHub](https://github.com/mikenye/docker-split2flac/issues).
+
+I also have a [Discord channel](https://discord.gg/RReJRrT), feel free to [join](https://discord.gg/RReJRrT) and converse.
